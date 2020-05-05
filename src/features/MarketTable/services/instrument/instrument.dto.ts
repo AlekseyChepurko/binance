@@ -27,6 +27,7 @@ export type Instrument = {
   lowPrice: number;
   latestPrice: number;
   symbol: string;
+  changePercent?: number;
 };
 
 const mapInstrumentDTO = (instrumentDto: InstrumentDTO): Instrument => {

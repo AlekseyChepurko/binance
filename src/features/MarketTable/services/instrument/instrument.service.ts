@@ -7,7 +7,7 @@ import {
   InstrumentMessage,
   mapInstrumentDTO,
 } from "./instrument.dto";
-import { filter, map, shareReplay } from "rxjs/operators";
+import { filter, map, shareReplay, startWith } from "rxjs/operators";
 import { Observable } from "rxjs";
 
 class InstrumentServiceConstructor {
@@ -18,11 +18,10 @@ class InstrumentServiceConstructor {
   private instrumentMap: Record<string, Observable<any>> = {};
 
   getInstrumentDataStream = (
-    symbol: string
-    // initialValue: Instrument
+    symbol: string,
+    initialValue: Instrument
   ): Observable<Instrument> => {
     if (!this.instrumentMap[symbol]) {
-      // console.log('caching');
       this.instrumentMap[symbol] = this.socket$.pipe(
         map((message) => message.data),
         map(findFirst((instrument) => instrument.s === symbol)),
@@ -31,8 +30,8 @@ class InstrumentServiceConstructor {
         map(e.map(mapInstrumentDTO)),
         filter(e.isRight),
         map((val) => val.right),
-        shareReplay({ refCount: true, bufferSize: 1 })
-        // startWith(initialValue)
+        shareReplay(1),
+        startWith(initialValue)
       );
     }
     return this.instrumentMap[symbol];
