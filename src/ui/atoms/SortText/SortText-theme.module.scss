@@ -1,0 +1,19 @@
+.container {
+  display: block;
+
+  &:after {
+    margin-left: 5px;
+  }
+}
+
+.desc {
+  &:after {
+    content: "↓";
+  }
+}
+
+.asc {
+  &:after {
+    content: "↑";
+  }
+}
