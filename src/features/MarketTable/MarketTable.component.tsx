@@ -2,25 +2,21 @@ import * as React from "react";
 import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window";
 import { MarketTableComponentProps } from "./MarketTable.models";
 import { withTheme } from "@devexperts/react-kit/dist/utils/withTheme";
-// import { useCallback, useState } from "react";
 import { Price } from "../../ui/atoms/Price";
 import { PercentChange } from "../../ui/atoms/PercentChange";
-import { useObservable } from "../../utils/use-observable.hook";
+import { useObservableOnMount } from "../../utils";
 import { InstrumentService } from "./services/instrument";
 import { useMemo } from "react";
+import { map, pairwise } from "rxjs/operators";
 
 const getA = (data: any, columnIndex: number) => {
   switch (columnIndex) {
     case 0:
-      return (
-        <div>
-          {data.symbol}
-        </div>
-      );
+      return <div>{data.symbol}</div>;
     case 1:
       return <Price price={data.latestPrice} />;
     case 2:
-      return <PercentChange changeValue={0} />;
+      return <PercentChange changeValue={data.changePercent || 0} />;
     default:
       return null;
   }
@@ -32,19 +28,20 @@ const Cell: React.FC<GridChildComponentProps> = (props) => {
   const symbol = elementData.symbol;
 
   const data$ = useMemo(
-    () => InstrumentService.getInstrumentDataStream(symbol),
-    [symbol]
+    () =>
+      InstrumentService.getInstrumentDataStream(symbol, elementData).pipe(
+        pairwise(),
+        map(([prev, cur]) => ({
+          ...cur,
+          changePercent: (1 - prev.latestPrice / cur.latestPrice) * 100,
+        }))
+      ),
+    []
   );
-  const data = useObservable(data$, {
-    quoteAsset: "",
-    symbol: "",
-    latestPrice: 0,
-    highPrice: 0,
-    lowPrice: 0,
-    openPrice: 0,
-  });
 
-  return <div style={props.style}>{getA(data, columnIndex)}</div>;
+  const data = useObservableOnMount(data$, elementData);
+
+  return <div style={{...props.style, textAlign: 'left'}}>{getA(data, columnIndex)}</div>;
 };
 
 const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
@@ -54,7 +51,6 @@ const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
   // const [changeOrVolume, setChangeOrVolume] = useState<CHANGE_OR_VOLUME>(
   //   CHANGE_OR_VOLUME.VOLUME
   // );
-
   return (
     <div style={{ fontSize: 12 }}>
       <Grid
