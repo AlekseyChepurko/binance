@@ -1,6 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { ThemeProvider } from "@devexperts/react-kit/dist/utils/withTheme";
+import { MarketTableFeature } from "./features/MarketTable/MarketTable.feature";
 
 function App() {
   return (
@@ -10,6 +12,9 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
+        <ThemeProvider theme={{}}>
+          <MarketTableFeature />
+        </ThemeProvider>
         <a
           className="App-link"
           href="https://reactjs.org"
