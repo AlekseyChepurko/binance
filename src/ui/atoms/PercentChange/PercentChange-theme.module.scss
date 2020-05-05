@@ -1,0 +1,9 @@
+.container {
+  &.negativeRate {
+    color: red;
+  }
+
+  &.positiveRate {
+    color: green;
+  }
+}
