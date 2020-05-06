@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { ThemeProvider } from "@devexperts/react-kit/dist/utils/withTheme";
 import { MarketTableFeature } from "./features/MarketTable/MarketTable.feature";
@@ -8,21 +7,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <p>Binance</p>
         <ThemeProvider theme={{}}>
           <MarketTableFeature />
         </ThemeProvider>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
