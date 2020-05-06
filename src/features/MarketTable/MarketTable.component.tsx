@@ -28,28 +28,39 @@ enum CHANGE_OR_VOLUME {
 }
 
 const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
-  // const [filter, setFilter] = useState();
-  // const [search, setSearch] = useState<string>();
-  // const [sort, setSort] = useState<string>();
+  // const [filter, setFilter] = useState<{
+  //   key: string;
+  //   value: string;
+  // }>();
+
+  const [search, setSearch] = useState<string>("");
   const [changeOrVolume, setChangeOrVolume] = useState<CHANGE_OR_VOLUME>(
     CHANGE_OR_VOLUME.CHANGE
   );
 
-  const rowGetter = useCallback((s: { index: number }) => props.data[s.index], [
-    props.data,
-  ]);
+  const data = props.data.filter((s) =>
+    s.symbol.toLowerCase().includes(search)
+  );
+
+  const rowGetter = useCallback(
+    (s: { index: number }) =>
+      props.data.filter((s) => s.symbol.toLowerCase().includes(search))[
+        s.index
+      ],
+    [props.data, search]
+  );
 
   const rowRenderer = useCallback(
     (data: TableRowProps) => (
       <Row
         theme={rowTheme}
-        key={data.key}
+        key={data.rowData.symbol}
         elementData={data.rowData}
         style={data.style}
         changeOrVolume={changeOrVolume}
       />
     ),
-    [changeOrVolume]
+    [changeOrVolume, data]
   );
 
   const headerRenderer = useCallback(
@@ -66,9 +77,17 @@ const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
     []
   );
 
+  const onSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.target.value.toLocaleLowerCase());
+    },
+    []
+  );
+
   return (
     <div style={{ fontSize: 12 }}>
       <div className="asd">
+        <input type="text" placeholder={"search"} onChange={onSearchChange} />
         <label htmlFor={CHANGE_OR_VOLUME.CHANGE}>
           <input
             type="radio"
@@ -98,7 +117,7 @@ const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
         columnCount={columnCount}
         height={333}
         rowHeight={20}
-        rowCount={props.data.length}
+        rowCount={data.length}
         width={tableWidth}
         headerRowRenderer={headerRenderer}
       >
