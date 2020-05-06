@@ -132,7 +132,7 @@ const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
   const onSort = useCallback(sortFactory(sort, setSort), [sort]);
 
   return (
-    <div style={{ fontSize: 12 }}>
+    <div style={{ fontSize: 12, width: tableWidth }}>
       <div className={theme.filterContainer}>
         <input type="text" placeholder={"search"} onChange={onSearchChange} />
         <div className={theme.filterElement}>

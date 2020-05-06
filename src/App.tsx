@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { ThemeProvider } from "@devexperts/react-kit/dist/utils/withTheme";
-import { MarketTableFeature } from "./features/MarketTable/MarketTable.feature";
+import { MarketTableFeature } from "./features/MarketTable";
 
 function App() {
   return (
