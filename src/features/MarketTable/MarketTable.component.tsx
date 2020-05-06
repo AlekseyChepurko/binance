@@ -134,7 +134,12 @@ const MarketTableComponent: React.FC<MarketTableComponentProps> = (props) => {
   return (
     <div style={{ fontSize: 12, width: tableWidth }}>
       <div className={theme.filterContainer}>
-        <input type="text" placeholder={"search"} onChange={onSearchChange} />
+        <input
+          className={theme.filterElement}
+          type="text"
+          placeholder={"search"}
+          onChange={onSearchChange}
+        />
         <div className={theme.filterElement}>
           <label htmlFor={CHANGE_OR_VOLUME.CHANGE}>
             <input
