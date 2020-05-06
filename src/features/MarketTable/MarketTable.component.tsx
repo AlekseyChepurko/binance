@@ -8,6 +8,7 @@ import {
   Column,
   TableHeaderRowProps,
 } from "react-virtualized";
+import cn from "classnames";
 import { Row } from "./Row";
 import { MarketTableHeader } from "./Header";
 
@@ -19,7 +20,7 @@ const columnWidth = tableWidth / columnCount;
 
 const rowTheme = {
   container: theme.rowContainer,
-  element: theme.rowElement,
+  element: cn(theme.rowElement, theme.headerRowCell),
 };
 
 enum CHANGE_OR_VOLUME {

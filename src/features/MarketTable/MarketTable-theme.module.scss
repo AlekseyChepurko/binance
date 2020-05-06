@@ -11,6 +11,18 @@
   }
 }
 
+.headerRowCell {
+  .headerCell {
+    justify-content: flex-end;
+  }
+
+  &:first-child {
+    .headerCell {
+      justify-content: flex-start;
+    }
+  }
+}
+
 .headerCell {
   display: flex;
   fill: currentColor;
