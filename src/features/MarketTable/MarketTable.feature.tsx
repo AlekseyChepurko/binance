@@ -2,7 +2,7 @@ import * as React from "react";
 import { MarketTable } from "./MarketTable.component";
 import { pending, fold } from "@devexperts/remote-data-ts";
 import { ProductService } from "./services/product";
-import { useObservable } from "../../utils/use-observable.hook";
+import { useObservable } from "../../utils";
 import { pipe } from "fp-ts/lib/pipeable";
 import { MarketTableData } from "./services/marketTable.models";
 

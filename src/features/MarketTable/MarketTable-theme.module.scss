@@ -1,0 +1,12 @@
+.rowContainer {
+  display: flex;
+}
+
+.rowElement {
+  width: 100%;
+  text-align: right;
+
+  &:first-child {
+    text-align: left;
+  }
+}
